@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serene Paradise</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+       /* body {
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
+        }*/
+	/* Apply a background image to the entire body */
+	body {
+   		 background-image: url('https://assets.cntraveller.in/photos/6634d50bd30ee0fe1f82a01d/16:9/w_1024%2Cc_limit/Kling%25206.jpg'); /* Replace with your image URL */
+     	  	 background-size:cover;
+		
+       		 background-repeat: no-repeat; /* Prevents the image from repeating */
+    		 margin: 0; /* Removes default margins */	
+	         text-align: center;
+	}
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .tab-navigation {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background-color: #2980b9;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .menu-categories {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .category-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .category-btn.active {
+            background-color: #2980b9;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .menu-item {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .menu-item:hover {
+            transform: scale(1.05);
+        }
+
+        .menu-item img {
+            max-width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .menu-item h3 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .menu-item p {
+            color: #7f8c8d;
+            margin-bottom: 10px;
+        }
+
+        .menu-item .price {
+            font-weight: bold;
+            color: #27ae60;
+            font-size: 1.2em;
+        }
+
+        .add-to-cart-btn {
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-to-cart-btn:hover {
+            background-color: #27ae60;
+        }
+
+        .cart-items {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ecf0f1;
+            padding: 10px 0;
+        }
+
+        .cart-item-details {
+            display: flex;
+            align-items: center;
+        }
+
+        .cart-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+
+        .remove-item-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .cart-total {
+            text-align: right;
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .checkout-btn {
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Serene Paradise</h1>
+            <p>Welcome to the Heaven of Sweet and Savory</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="tab-navigation">
+            <button class="tab-btn active" onclick="switchTab('menu')">Menu</button>
+            <button class="tab-btn" onclick="switchTab('cart')">
+                Cart <span id="cartCount">0</span>
+            </button>
+        </div>
+
+        <div id="menuTab" class="tab-content active">
+            <div class="menu-categories" id="categories">
+                <!-- Category buttons will be dynamically added here -->
+            </div>
+
+            <div class="menu-grid" id="menuItems">
+                <!-- Menu items will be dynamically added here -->
+            </div>
+        </div>
+
+        <div id="cartTab" class="tab-content">
+            <div class="cart-items" id="cartItems"></div>
+            <div id="cartTotal" class="cart-total"></div>
+            <button id="checkoutBtn" class="checkout-btn">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <script>
+        // Menu data (using the data from the provided HTML file)
+        const menuData = {
+            appetizers: [
+                {
+                    name: "Bruschetta",
+                    description: "2 Slices of toasted bread topped with fresh tomatoes and basil",
+                    price: "₹120",
+                    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRW4vM1PnvZDOEASGOxNsyb1aCM3RYmtjyKkA&s"
+                },
+                {
+                    name: "Fried Marinara Chicken",
+                    description: "3 pieces of Crispy fried chicken coated in rich marinara sauce",
+                    price: "₹180",
+                    image: "https://beautyandthefoodie.com/wp-content/uploads/2022/03/Keto-Air-Fryer-Chicken-Parmesan-8-cp.jpg"
+                },
+		{
+                    name: "Honey Chilli Potatoes",
+                    description: "A cut of Julienne potatoes deep fried , and coated in an mouthwatering glaze of honey and chilli.",
+                    price: "₹180",
+                    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyCQWoR6oovSC9ReF3g1MmHOQiMd1wmiRyPA&s"
+                },
+		{
+                    name: "French fries",
+                    description: "A cut of Julienne potatoes deep fried , salted and served with tomato sauce",
+                    price: "₹140",
+                    image: "https://sausagemaker.com/wp-content/uploads/Homemade-French-Fries_8.jpg"
+                },
+		
+		{
+                    name: "Crispy Babycorn",
+                    description: "8 pieces of Crispy batter fried babycorn",
+                    price: "₹140",
+                    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVKJkfo9ad5R6iibwWJnB44A0GJELQHaC_DQ&s"
+                },
+		{
+                    name: "Paneer lollipop",
+                    description: "Crumbled Paneer mixed with boiled potatoes and spices creating a lollipop appearance(6)",
+                    price: "₹130",
+                    image: "https://momsrecipe.org/wp-content/uploads/2024/07/1-7.webp"
+                },
+		{
+                    name: "Chicken lollipop",
+                    description: "Frenched chicken winglets, the meat cut loose from the bone end and pushed down creating a lollipop appearance(6)",
+                    price: "₹150",
+                    image: "https://lh3.googleusercontent.com/proxy/3M5fKmqCsyKjF6vxj75sFkYj29l2DoKJWbBFGph1eBeygd59_flsuVtof6fZVbiO_sB4a0Wz63Nrb0qKLt1q-8zg-t5LYWcBQA"
+                },
+		
+		{
+                    name: "Chicken Wings Fry",
+                    description: "4 pieces of Delightfully tasty mouthwatering spicy and hot fried chicken wings.",
+                    price: "₹120",
+                    image: "https://www.licious.in/blog/wp-content/uploads/2020/12/Fried-Chicken-Wing-750x750.jpg"
+                },
+		{
+                    name: "Classic Garlic Bread",
+                    description: "Bread spread with butter and crushed garlic and heated in the oven until perfection.",
+                    price: "₹170",
+                    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTy7VG0RQvMQ91aHvs3SrEVqzxSQnGx1ygUKg&s"
+                },
+		{
+                    name: "Stuffed Garlic Bread",
+                    description: "Freshly baked garlic bread with cheese, juicy corn & tangy jalapeno.",
+                    price: "₹200",
+                    image: "https://static.toiimg.com/photo/80287440.cms"
+                }, 
+            ],
+            breads: [
+                {
+                    name: "Chapati",
+                    description: "A delectable and flavorful Indian flatbread, perfect for any meal.",
+                    price: "₹20",
+                    image: "https://static.toiimg.com/thumb/61203720.cms?width=1200&height=900"
+                },
+		{
+                    name: "Roti",
+                    description: "Mostly made from wheat flour, cooked on a flat or slightly concave iron griddle to perfect softness.",
+                    price: "₹20",
+                    image: "https://werecipes.com/app/uploads/2015/04/phulka-roti-chappati-recipe.jpg"
+                },
+		{
+                    name: "Parotta",
+                    description: "A delectable and flavorful veg delight from Kerala, showcasing the epitome of Parotta mastery.",
+                    price: "₹25",
+                    image: "https://cdn.uengage.io/uploads/7057/image-923556-1671810387.png"
+                },
+		{
+                    name: "Naan",
+                    description: " A type of leavened bread, typically of teardrop shape and traditionally cooked in a clay oven.",
+                    price: "₹30",
+                    image: "https://paattiskitchen.com/wp-content/uploads/2023/05/kmc_20230425_222650.jpg"
+                },
+		{
+                    name: "Kulcha",
+                    description: "A popular, soft, and pillow-like flatbread from North India",
+                    price: "₹35",
+                    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCaUSlBUHlBRD2RZqczijmS-A84f0auqGfsQ&s"
+                },
+		{
+                    name: "Butter Naan",
+                    description: "Naan brushed with warm butter at the end for a richer finish.",
+                    price: "₹35",
+                    image: "https://storage.googleapis.com/shy-pub/261217/SKU-1273_0-1715858149554.jpeg"
+                },
+		{
+                    name: "Butter Kulcha",
+                    description: "Kulcha brushed with warm butter at the end for a richer finish.",
+                    price: "₹40",
+                    image: "https://thefishermankitchennbar.com/wp-content/uploads/2023/08/Butter-Kulcha.jpg"
+                },
+
+            ],
+            mainCourses: [
+                {
+                    name: "Pepper Chicken",
+                    description: "Tender chicken pieces are slow-cooked to absorb the rich pepper-infused flavors.",
+                    price: "₹220",
+                    image: "https://www.relishthebite.com/wp-content/uploads/2018/02/PepperChickenCurry.jpg"
+                },
+		{
+                    name: "Egg Roast",
+                    description: "Egg roast has a tangy and spicy flavor of pan-fried eggs coated with ghee and roasted spice",
+                    price: "₹200",
+                    image: "https://i0.wp.com/mariasmenu.com/wp-content/uploads/Kerala-Egg-Roast-Recipe-1.png?fit=650%2C836&ssl=1"
+                },
+		{
+                    name: "Chicken Roast",
+                    description: "Chicken roast has a tangy and spicy flavor with ghee and roasted spice",
+                    price: "₹230",
+                    image: "https://i0.wp.com/www.happyandharried.com/wp-content/uploads/2016/01/Spicy-Chicken-Roast.jpg"
+                },
+		{
+                    name: "Gobi Manchurian",
+                    description: "A delightfully tasty dish with gobi coated in Manchurian sauces, assorted spices and tossed with veggies.",
+                    price: "₹170",
+                    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTU2u83yDWwKThYvsBTIXNQQDmm8-gJTosuLw&s"
+                },
+		{
+                    name: "Paneer Manchurian",
+                    description: "A popular Indo-Chinese dish made with deep-fried diced paneer pieces, coated in a tangy and spicy sauce",
+                    price: "₹190",
+                    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4N_y0v0APMJCrLBk5M5pOce-NXTbgWJOsuw&s"
+                },
+		{
+                    name: "Chicken Manchurian",
+                    description: "A popular Indo-Chinese dish made with deep-fried diced chicken pieces, coated in a tangy and spicy sauce",
+                    price: "₹220",
+                    image: "https://t4.ftcdn.net/jpg/08/64/12/55/360_F_864125576_egIn15mBBFQ31PGhje1cCAmYq4x0Gpu8.jpg"
+                },
+		{
+                    name: "Chilli Babycorn",
+                    description: "Tender corn dipped in a seasoned batter, deep fried and tossed in a spicy chilli-based sauce.",
+                    price: "₹180",
+                    image: "https://i0.wp.com/myvegetarianroots.com/wp-content/uploads/2020/10/DSC_0033.jpeg?fit=1394%2C1920&ssl=1"
+                },
+		{
+                    name: "Chilli panneer",
+                    description: "A delightfully flavourful dish prepared with soft paneer and slow cooked with flavourful chilli sauce and other masalas.",
+                    price: "₹200",
+                    image: "https://www.funfoodfrolic.com/wp-content/uploads/2020/04/Chilli-Paneer-Thumbnail-500x500.jpg"
+                },
+		{
+                    name: "Egg Chilli",
+                    description: "Boiled or fried eggs tossed in a spicy and tangy sauce, creating a delicious and fiery appetizer.",
+                    price: "₹210",
+                    image: "https://i.ytimg.com/vi/Ay-VnMv1ZkU/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCqBE-QjFtSd2D3xjoL64AWgaFPdA"
+                },
+		{
+                    name: "Chilli Chicken",
+                    description: "Fried chicken pieces tossed in a spicy and tangy sauce, creating a delicious and fiery appetizer.",
+                    price: "₹230",
+                    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ--I4ibvNfZpwI0FyN5Zdrpf8M5DrXn1seiA&s"
+                },
+            ],
+            desserts: [
+                {
+                    name: "Chocolate Lava Cake",
+                    description: "Warm chocolate cake with vanilla ice cream",
+                    price: "₹140",
+                    image: "https://sallysbakingaddiction.com/wp-content/uploads/2017/02/chocolate-molten-lava-cakes.jpg"
+                },
+		{
+                    name: "Tiramisu",
+                    description: "Classic Italian coffee-flavored dessert",
+                    price: "₹145",
+                    image: "https://www.flavoursholidays.co.uk/wp-content/uploads/2020/07/Tiramisu.jpg"
+                },
+		{
+                    name: "Gulab Jamun",
+                    description: "Fried dough balls soaked in a rose-scented syrup",
+                    price: "₹50",
+                    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSS-KhpY1xRfzzXg_MfJMUa9vHcPow-wrVwmA&s"
+                },
+
+            ]
+        };
+
+        // Cart functionality
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        // Tab switching
+        function switchTab(tabName) {
+            // Remove active class from all tabs and tab buttons
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Add active class to selected tab and button
+            document.getElementById(`${tabName}Tab`).classList.add('active');
+            event.target.classList.add('active');
+
+            // Render cart if switching to cart tab
+            if (tabName === 'cart') {
+                renderCartItems();
+            }
+        }
+
+        // Update cart count
+        function updateCartCount() {
+            const cartCount = document.getElementById('cartCount');
+            cartCount.textContent = cart.length;
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+        // Add to cart function
+        function addToCart(item) {
+            const existingItem = cart.find(cartItem => cartItem.name === item.name);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({...item, quantity: 1});
+            }
+
+            updateCartCount();
+            alert(`${item.name} added to cart!`);
+        }
+
+        // Render cart items
+        function renderCartItems() {
+            const cartItemsContainer = document.getElementById('cartItems');
+            const cartTotalElement = document.getElementById('cartTotal');
+            cartItemsContainer.innerHTML = '';
+
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                const price = parseFloat(item.price.replace('₹', ''));
+                const itemTotal = price * item.quantity;
+                total += itemTotal;
+
+                const cartItemElement = document.createElement('div');
+                cartItemElement.classList.add('cart-item');
+                cartItemElement.innerHTML = `
+                    <div class="cart-item-details">
+                        <img src="${item.image}" alt="${item.name}">
+                        <div>
+                            <h3>${item.name}</h3>
+                            <p>Price: ₹${price} | Quantity: ${item.quantity}</p>
+                        </div>
+                    </div>
+                    <div>
+                        <p>Total: ₹${itemTotal}</p>
+                        <button class="remove-item-btn" onclick="removeFromCart(${index})">Remove</button>
+                    </div>
+                `;
+                cartItemsContainer.appendChild(cartItemElement);
+            });
+
+            cartTotalElement.textContent = `Total: ₹${total.toFixed(2)}`;
+        }
+
+        // Remove item from cart
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            renderCartItems();
+            updateCartCount();
+        }
+
+        // Create category buttons
+        function createCategoryButtons() {
+            const categoriesContainer = document.getElementById('categories');
+            categoriesContainer.innerHTML = ''; // Clear existing buttons
+
+            Object.keys(menuData).forEach(category => {
+                const button = document.createElement('button');
+                button.textContent = category.charAt(0).toUpperCase() + category.slice(1);
+                button.classList.add('category-btn');
+                button.addEventListener('click', () => displayMenuItems(category));
+                
+                // Set first category as active by default
+                if (category === Object.keys(menuData)[0]) {
+                    button.classList.add('active');
+                }
+                
+                categoriesContainer.appendChild(button);
+            });
+        }
+
+        // Display menu items for a specific category
+        function displayMenuItems(category) {
+            const menuItemsContainer = document.getElementById('menuItems');
+            
+            // Reset active state on category buttons
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Clear existing menu items
+            menuItemsContainer.innerHTML = '';
+
+            // Add items for selected category
+            menuData[category].forEach(item => {
+                const menuItemElement = document.createElement('div');
+                menuItemElement.classList.add('menu-item');
+                menuItemElement.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <h3>${item.name}</h3>
+                    <p>${item.description}</p>
+                    <div class="price">${item.price}</div>
+                    <button class="add-to-cart-btn" onclick="addToCart(${JSON.stringify(item).replace(/"/g, '&quot;')})">Add to Cart</button>
+                `;
+                menuItemsContainer.appendChild(menuItemElement);
+            });
+        }
+
+        // Checkout button
+        document.getElementById('checkoutBtn').addEventListener('click', () => {
+            alert('Thank you for your order!');
+            cart = [];
+            localStorage.removeItem('cart');
+            renderCartItems();
+            updateCartCount();
+        });
+
+        // Initialize the menu
+        createCategoryButtons();
+        displayMenuItems(Object.keys(menuData)[0]);
+        updateCartCount();
+    </script>
+</body>
+</html>
